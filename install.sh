@@ -65,6 +65,15 @@ then
     echo "source $PWD/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 
     zshrc
+
+    # change shell to zsh by default
+    if [ "$CODESPACES" = "true" ]
+    then
+      echo 'chsh'
+      sudo sed -i 's/auth       required   pam_shells.so/auth       sufficient   pam_shells.so/'  /etc/pam.d/chsh
+      chsh -s /usr/bin/zsh
+      sudo sed -i 's/auth       sufficient   pam_shells.so/auth       required   pam_shells.so/'  /etc/pam.d/chsh
+    fi
 fi
 
 
