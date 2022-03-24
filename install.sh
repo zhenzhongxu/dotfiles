@@ -70,9 +70,14 @@ then
     if [ "$CODESPACES" = "true" ]
     then
       echo 'chsh'
-      sudo sed -i 's/auth       required   pam_shells.so/auth       sufficient   pam_shells.so/'  /etc/pam.d/chsh
-      chsh -s /usr/bin/zsh
-      sudo sed -i 's/auth       sufficient   pam_shells.so/auth       required   pam_shells.so/'  /etc/pam.d/chsh
+      FILE=/etc/pam.d/chsh
+      if test -f "$FILE"; then
+        sudo sed -i 's/auth       required   pam_shells.so/auth       sufficient   pam_shells.so/'  /etc/pam.d/chsh
+        chsh -s /usr/bin/zsh
+        sudo sed -i 's/auth       sufficient   pam_shells.so/auth       required   pam_shells.so/'  /etc/pam.d/chsh    
+      else 
+        sudo bash -c "echo 'auth       sufficient   pam_shells.so' > /etc/pam.d/chsh"
+      fi
     fi
 fi
 
