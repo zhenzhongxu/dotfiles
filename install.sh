@@ -73,7 +73,7 @@ then
       FILE=/etc/pam.d/chsh
       if test -f "$FILE"; then
         sudo sed -i 's/auth       required   pam_shells.so/auth       sufficient   pam_shells.so/'  /etc/pam.d/chsh
-        chsh -s /usr/bin/zsh
+        chsh -s $(which zsh)
         sudo sed -i 's/auth       sufficient   pam_shells.so/auth       required   pam_shells.so/'  /etc/pam.d/chsh    
       else 
         sudo bash -c "echo 'auth       sufficient   pam_shells.so' > /etc/pam.d/chsh"
@@ -93,5 +93,3 @@ echo "# remove ls and directory completion highlight color" >> ~/.zshrc
 echo "_ls_colors=':ow=01;33'" >> ~/.zshrc
 echo 'zstyle ":completion:*:default" list-colors "${(s.:.)_ls_colors}"' >> ~/.zshrc
 echo 'LS_COLORS+=$_ls_colors' >> ~/.zshrc
-
-
