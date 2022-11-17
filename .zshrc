@@ -122,5 +122,4 @@ function uuid {
 SDKMAN_SCRIPT=$HOME/.sdkman/bin/sdkman-init.sh
 if test -f "$SDKMAN_SCRIPT"; then
     source "$SDKMAN_SCRIPT"
-    print "sdkman init..."
 fi
