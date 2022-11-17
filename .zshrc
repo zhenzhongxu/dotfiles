@@ -117,3 +117,10 @@ function uuid {
     python -c 'import uuid;print(uuid.uuid1())' | pbcopy
     pbpaste
 }
+
+
+SDKMAN_SCRIPT=$HOME/.sdkman/bin/sdkman-init.sh
+if test -f "$SDKMAN_SCRIPT"; then
+    source "$SDKMAN_SCRIPT"
+    print "sdkman init..."
+fi
