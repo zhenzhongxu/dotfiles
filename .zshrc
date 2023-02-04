@@ -123,3 +123,5 @@ SDKMAN_SCRIPT=$HOME/.sdkman/bin/sdkman-init.sh
 if test -f "$SDKMAN_SCRIPT"; then
     source "$SDKMAN_SCRIPT"
 fi
+
+export PATH=$PATH:$HOME/.local/bin
