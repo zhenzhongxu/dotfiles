@@ -6,6 +6,9 @@ export USERNAME=`whoami`
 
 ## update and install required packages
 sudo apt-get update
+sudo apt-mark hold openssh-client openssh-server openssh-sftp-server
+sudo apt-get upgrade -yqq
+
 sudo apt-get -y install --no-install-recommends apt-utils dialog 2>&1
 sudo apt-get install -y \
   curl \
@@ -21,6 +24,8 @@ sudo apt-get install -y \
   unzip \
   apt-transport-https \
   lsb-release 
+  
+sudo apt-mark unhold openssh-client openssh-server openssh-sftp-server
 
 zshrc() {
     echo "==========================================================="
