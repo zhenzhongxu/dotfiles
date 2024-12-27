@@ -114,14 +114,15 @@ alias kubeapply="kubectl apply -f ~/current_deployment.yaml "
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('$CONDA_PREFIX/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# If the script fails, try manual initialization: $>conda init zsh
+__conda_setup="$('/Users/zxu/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "$CONDA_PREFIX/etc/profile.d/conda.sh" ]; then
-        . "$CONDA_PREFIX/etc/profile.d/conda.sh"
+    if [ -f "/Users/zxu/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/zxu/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="$CONDA_PREFIX/bin:$PATH"
+        export PATH="/Users/zxu/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
