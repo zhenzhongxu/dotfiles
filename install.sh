@@ -1,100 +1,45 @@
-#!/bin/sh
+#!/bin/bash
 
-export DEBIAN_FRONTEND=noninteractive
-export INSTALL_ZSH=true
-export USERNAME=`whoami`
+# Exit immediately if a command exits with a non-zero status
+set -eo pipefail
 
-## update and install required packages
-sudo apt-get update
-sudo apt-mark hold openssh-client openssh-server openssh-sftp-server
-sudo apt-get upgrade -yqq
-
-sudo apt-get -y install --no-install-recommends apt-utils dialog 2>&1
-sudo apt-get install -y \
-  curl \
-  git \
-  gnupg2 \
-  jq \
-  sudo \
-  openssh-client \
-  less \
-  iproute2 \
-  procps \
-  wget \
-  unzip \
-  apt-transport-https \
-  lsb-release 
-  
-sudo apt-mark unhold openssh-client openssh-server openssh-sftp-server
-
-zshrc() {
-    echo "==========================================================="
-    echo "             cloning zsh-autosuggestions                   "
-    echo "-----------------------------------------------------------"
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-    echo "==========================================================="
-    echo "             cloning zsh-syntax-highlighting               "
-    echo "-----------------------------------------------------------"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    echo "==========================================================="
-    echo "             cloning powerlevel10k                         "
-    echo "-----------------------------------------------------------"
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-    echo "==========================================================="
-    echo "             import zshrc                                  "
-    echo "-----------------------------------------------------------"
-    cat .zshrc > $HOME/.zshrc
-    echo "==========================================================="
-    echo "             import powerlevel10k                          "
-    echo "-----------------------------------------------------------"
-    cat .p10k.zsh > $HOME/.p10k.zsh
+# Function to print error message to stderr and exit
+error_exit() {
+    echo "Error: $1" >&2
+    exit 1
 }
 
-# change time zone
-sudo ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-sudo dpkg-reconfigure --frontend noninteractive tzdata
+# Check if CODESPACES environment variable is set to "true"
+if [ "$CODESPACES" = "true" ]; then
+    ./install_codespace.sh
+    
+# Else, check if the operating system is Linux
+elif [ "$(uname)" = "Linux" ]; then
+    # Check if /etc/os-release exists to determine the Linux distribution
+    if [ -f /etc/os-release ]; then
+        # Source the os-release file to get OS information
+        . /etc/os-release
 
-
-# Install & Configure Zsh
-if [ "$INSTALL_ZSH" = "true" ]
-then
-    sudo apt-get install -y \
-    fonts-powerline \
-    zsh
-
-    # cp -f ~/dotfiles/.zshrc ~/.zshrc
-    # chsh -s /usr/bin/zsh $USERNAME
-    wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-    echo "source $PWD/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-
-    zshrc
-
-    # change shell to zsh by default
-    if [ "$CODESPACES" = "true" ]
-    then
-      echo 'chsh'
-      FILE=/etc/pam.d/chsh
-      if test -f "$FILE"; then
-        sudo sed -i 's/auth       required   pam_shells.so/auth       sufficient   pam_shells.so/'  /etc/pam.d/chsh
-        chsh -s $(which zsh)
-        sudo sed -i 's/auth       sufficient   pam_shells.so/auth       required   pam_shells.so/'  /etc/pam.d/chsh    
-      else 
-        sudo bash -c "echo 'auth       sufficient   pam_shells.so' > /etc/pam.d/chsh"
-      fi
+        # Check if the distribution is Ubuntu or Debian
+        case "$ID" in
+            ubuntu|debian)
+                # Check if install_linux.sh exists and is executable
+                if [ -x "./install_linux.sh" ]; then
+                    echo "Detected Linux distribution: $PRETTY_NAME. Executing install_linux.sh..."
+                    ./install_linux.sh
+                else
+                    error_exit "install_linux.sh not found or not executable."
+                fi
+                ;;
+            *)
+                error_exit "Unsupported Linux distribution: $PRETTY_NAME."
+                ;;
+        esac
+    else
+        error_exit "/etc/os-release not found. Cannot determine Linux distribution."
     fi
+
+# If neither Codespaces nor Linux, prompt an error
+else
+    error_exit "Operating system not supported yet."
 fi
-
-
-# Cleanup
-sudo apt-get autoremove -y
-sudo apt-get autoremove -y
-sudo rm -rf /var/lib/apt/lists/*
-
-# needs to be after zshrc
-echo "" >> ~/.zshrc
-echo "# remove ls and directory completion highlight color" >> ~/.zshrc
-echo "_ls_colors=':ow=01;33'" >> ~/.zshrc
-echo 'zstyle ":completion:*:default" list-colors "${(s.:.)_ls_colors}"' >> ~/.zshrc
-echo 'LS_COLORS+=$_ls_colors' >> ~/.zshrc
