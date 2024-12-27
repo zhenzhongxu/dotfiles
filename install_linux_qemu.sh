@@ -32,9 +32,9 @@ sudo apt-get -y install \
   apt-transport-https \
   lsb-release 
   
-# change time zone
-sudo ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-sudo dpkg-reconfigure --frontend noninteractive tzdata
+# # change time zone
+# sudo ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+# sudo dpkg-reconfigure --frontend noninteractive tzdata
 
 
 # Install & Configure Zsh
