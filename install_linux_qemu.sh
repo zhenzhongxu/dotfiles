@@ -61,6 +61,9 @@ then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
     echo "==========================================================="
 
+    # install fonts
+    ./install_fonts.sh
+
     # symlink zshrc
     if [ -f "$HOME/.zshrc" ]; then
       mv "$HOME/.zshrc" "$HOME/.zshrc.bak.$(date +'%Y%m%d%H%M')"
@@ -87,18 +90,25 @@ then
 
 fi
 
+# symlink gitconfig
+if [ -f "$HOME/.gitconfig" ]; then
+  mv "$HOME/.gitconfig" "$HOME/.gitconfig.bak.$(date +'%Y%m%d%H%M')"
+fi
+ln -s $PWD/.gitconfig $HOME/.gitconfig
 
-  # symlink gitconfig
-  if [ -f "$HOME/.gitconfig" ]; then
-    mv "$HOME/.gitconfig" "$HOME/.gitconfig.bak.$(date +'%Y%m%d%H%M')"
-  fi
-  ln -s $PWD/.gitconfig $HOME/.gitconfig
+# symlink gitignore_global
+if [ -f "$HOME/.gitignore_global" ]; then
+  mv "$HOME/.gitignore_global" "$HOME/.gitignore_global.bak.$(date +'%Y%m%d%H%M')"
+fi
+ln -s $PWD/.gitignore_global $HOME/.gitignore_global
 
-  # symlink gitignore_global
-  if [ -f "$HOME/.gitignore_global" ]; then
-    mv "$HOME/.gitignore_global" "$HOME/.gitignore_global.bak.$(date +'%Y%m%d%H%M')"
-  fi
-  ln -s $PWD/.gitignore_global $HOME/.gitignore_global
+# install brew
+echo "installing linux brew"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# install conda
+echo "installing miniconda"
+./install_conda.sh
 
 # Cleanup
 sudo apt-get autoremove -y
