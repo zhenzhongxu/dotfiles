@@ -110,8 +110,9 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 sudo apt-get install build-essential -y
 
-# install gcc
+# install gcc, gh
 brew install gcc
+brew install gh
 
 # install conda
 echo "installing miniconda"
