@@ -7,8 +7,8 @@
 	email = flyfree@gmail.com
 [core]
 	excludesfile = /Users/zxu/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+[difftool "vscode"]
+    cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
+    path = 
 [http]
 	postBuffer = 104857600
