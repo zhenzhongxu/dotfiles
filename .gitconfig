@@ -10,5 +10,5 @@
 [difftool "vscode"]
     cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
     path = 
-[http]
-	postBuffer = 104857600
+# [http]
+# 	postBuffer = 104857600
