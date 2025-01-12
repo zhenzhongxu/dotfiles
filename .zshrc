@@ -1,3 +1,19 @@
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+# If the script fails, try manual initialization: $>conda init zsh
+__conda_setup="$('~/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "~/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "~/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="~/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -110,23 +126,6 @@ alias kubeapply="kubectl apply -f ~/current_deployment.yaml "
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# If the script fails, try manual initialization: $>conda init zsh
-__conda_setup="$('/Users/zxu/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/zxu/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/zxu/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/zxu/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 # bun completions
 [ -s "~/.bun/_bun" ] && source "~/.bun/_bun"
