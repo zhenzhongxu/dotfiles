@@ -23,10 +23,10 @@ elif [ "$(uname)" = "Linux" ]; then
         # Check if the distribution is Ubuntu or Debian
         case "$ID" in
             ubuntu|debian)
-                # Check if install_linux.sh exists and is executable
-                if [ -x "./install_linux.sh" ]; then
+                # Check if install_linux_qemu.sh exists and is executable
+                if [ -x "./install_linux_qemu.sh" ]; then
                     echo "Detected Linux distribution: $PRETTY_NAME. Executing install_linux.sh..."
-                    ./install_linux.sh
+                    ./install_linux_qemu.sh
                 else
                     error_exit "install_linux.sh not found or not executable."
                 fi
