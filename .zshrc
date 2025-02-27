@@ -70,7 +70,12 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-if [ -d "$HOME/.ssh" ]; then
+
+if [[ "$(uname)" == "Darwin" ]]; then
+  # mac 
+  ssh-add --apple-use-keychain
+elif [ -d "$HOME/.ssh" ]; then
+  # linux when ~/.ssh exists
   plugins=(git ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 else
   plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
