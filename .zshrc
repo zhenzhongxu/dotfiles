@@ -73,6 +73,7 @@ COMPLETION_WAITING_DOTS="true"
 
 if [[ "$(uname)" == "Darwin" ]]; then
   # mac 
+  plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
   ssh-add --apple-use-keychain
 elif [ -d "$HOME/.ssh" ]; then
   # linux when ~/.ssh exists
