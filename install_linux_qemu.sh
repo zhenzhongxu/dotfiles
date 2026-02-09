@@ -102,6 +102,12 @@ if [ -f "$HOME/.gitignore_global" ]; then
 fi
 ln -s $PWD/.gitignore_global $HOME/.gitignore_global
 
+# symlink tmux.conf
+if [ -f "$HOME/.tmux.conf" ]; then
+  mv "$HOME/.tmux.conf" "$HOME/.tmux.conf.bak.$(date +'%Y%m%d%H%M')"
+fi
+ln -s $PWD/.tmux.conf $HOME/.tmux.conf
+
 # install brew
 echo "installing linux brew"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
