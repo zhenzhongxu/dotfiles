@@ -83,6 +83,8 @@ then
 fi
 
 
+cat .tmux.conf > $HOME/.tmux.conf
+
 # Cleanup
 sudo apt-get autoremove -y
 sudo apt-get autoremove -y
